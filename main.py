@@ -1,20 +1,28 @@
-from aiogram import Bot, Dispatcher, executor, types
-from config import BOT_TOKEN
-from handlers.start import start_handler
-from database.db import init_db
+import httpx
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+import os
+from dotenv import load_dotenv
 
-bot = Bot(token=BOT_TOKEN)
-dp = Dispatcher(bot)
+load_dotenv()
 
-@dp.message_handler(commands=['start'])
-async def cmd_start(message: types.Message):
-    await start_handler(message)
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # آدرس رندر (مثلاً: https://your-app.onrender.com)
 
-@dp.message_handler()
-async def echo(message: types.Message):
-    await message.reply(f"پیام شما ذخیره شد:\n{message.text}")
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("سلام! من ربات CRM کودکس هستم. آماده‌ام!")
+
+async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(update.message.text)
 
 if __name__ == '__main__':
-    import asyncio
-    asyncio.run(init_db())
-    executor.start_polling(dp)
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
+
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("سلام", start))
+
+    app.run_webhook(
+        listen="0.0.0.0",
+        port=10000,
+        webhook_url=WEBHOOK_URL
+    )
