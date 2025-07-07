@@ -1,9 +1,8 @@
-
 import logging
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-TOKEN = "7847661218:AAEIHUcwg2gb7jF8zdK75w2Xk_exIewWAPU"
+TOKEN = "7847661218:AAFjJ8DOpzoj0-fRGQJ1PSkCCsAB9qS8GNQ"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.username != "vahid91640":
