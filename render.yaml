@@ -1,6 +1,12 @@
 services:
   - type: web
-    name: batis-crm
+    name: codex
     env: python
-    buildCommand: "pip install --upgrade pip setuptools wheel && pip install -r requirements.txt"
-    startCommand: "python main.py"
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: BOT_TOKEN
+        value: <توکن_ربات_اینجا_بزار>
+      - key: WEBHOOK_URL
+        value: https://codex-4zmj.onrender.com/webhook
