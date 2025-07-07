@@ -1,6 +1,6 @@
 services:
-  - type: worker
-    name: batis-crm
+  - type: web
+    name: kodex
     env: python
     buildCommand: "pip install -r requirements.txt"
     startCommand: "python main.py"
