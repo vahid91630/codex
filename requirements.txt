@@ -1,5 +1,6 @@
 aiohttp>=3.8.1,<4.0.0
 aiosqlite
+httpx
 python-dotenv
 setuptools>=65.5.0
 wheel>=0.38.4
