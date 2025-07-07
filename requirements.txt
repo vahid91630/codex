@@ -1,2 +1,2 @@
-flask
-pyTelegramBotAPI
+aiogram==2.25.2
+aiosqlite

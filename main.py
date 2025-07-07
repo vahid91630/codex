@@ -1,27 +1,20 @@
-from flask import Flask, request
-import telebot
-import os
+from aiogram import Bot, Dispatcher, executor, types
+from config import BOT_TOKEN
+from handlers.start import start_handler
+from database.db import init_db
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN")
-bot = telebot.TeleBot(BOT_TOKEN)
-app = Flask(__name__)
+bot = Bot(token=BOT_TOKEN)
+dp = Dispatcher(bot)
 
-@app.route('/')
-def home():
-    return 'روبات Kodex آماده‌ست!'
+@dp.message_handler(commands=['start'])
+async def cmd_start(message: types.Message):
+    await start_handler(message)
 
-@app.route(f'/{BOT_TOKEN}', methods=['POST'])
-def webhook():
-    update = telebot.types.Update.de_json(request.stream.read().decode("utf-8"))
-    bot.process_new_updates([update])
-    return 'OK', 200
-
-@bot.message_handler(commands=['start'])
-def handle_start(message):
-    bot.send_message(message.chat.id, "سلام! من ربات CRM باتیس هستم. پیام‌هات رو بفرست.")
+@dp.message_handler()
+async def echo(message: types.Message):
+    await message.reply(f"پیام شما ذخیره شد:\n{message.text}")
 
 if __name__ == '__main__':
-    webhook_url = f"https://codex-4zmj.onrender.com/{BOT_TOKEN}"
-    bot.remove_webhook()
-    bot.set_webhook(url=webhook_url)
-    app.run(host='0.0.0.0', port=10000)
+    import asyncio
+    asyncio.run(init_db())
+    executor.start_polling(dp)
