@@ -1,4 +1,4 @@
-aiohttp==3.8.5
+aiohttp==3.8.1
 aiosqlite
 python-dotenv
 setuptools>=65.5.0
