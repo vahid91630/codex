@@ -1,9 +1,9 @@
 services:
-  - type: web
+  - type: worker
     name: codex
     env: python
-    buildCommand: ""
-    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port 10000"
-    plan: free
-    branch: main
-    autoDeploy: true
+    buildCommand: pip install -r requirements.txt
+    startCommand: python src/main.py
+    envVars:
+      - key: TELEGRAM_TOKEN
+        value: 7847661218:AAEIHUcwg2gb7jF8zdK75w2Xk_exIewWAPU
